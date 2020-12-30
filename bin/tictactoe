@@ -1,0 +1,50 @@
+#!/usr/bin/env ruby
+
+require 'pry'
+require_relative '../config/environment'
+
+puts "Welcome to Tic Tac Toe!!"
+puts "How many players will be playing?"
+puts "1. One"
+puts "2. Two"
+puts "3. Two Computers"
+
+input = gets.chomp
+if input == "1"
+    puts "Activating computer opponent!!!"
+    game = Game.new(player_1 = Players::Human.new("X"), player_2 = Players::Computer.new("O"), board = Board.new)
+    game.play
+end
+if input == "2"
+    puts "Starting 2 player game!"
+    game = Game.new
+    game.play
+end
+if input == "3"
+    puts "Starting some computer on computer action!"
+    puts "How many games shall they play?"
+    num = gets.chomp.to_i
+    draws = 0
+    x_wins = 0
+    o_wins = 0
+
+    while num > 0
+        game = Game.new(player_1 = Players::Computer.new("X"), player_2 = Players::Computer.new("O"), board = Board.new)
+        outcome = game.play
+        if outcome == "draw"
+            draws += 1
+        elsif outcome == "X wins"  
+            x_wins += 1   
+        elsif outcome == "O wins"  
+            o_wins += 1
+        end  
+        num -= 1
+    end
+    
+    puts "Totals:"
+    puts " Draws: #{draws}"
+    puts " X Games: #{x_wins}"
+    puts " O Games: #{o_wins}"
+end
+
+
