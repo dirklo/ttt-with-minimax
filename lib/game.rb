@@ -1,5 +1,5 @@
 class Game
-    attr_accessor :board, :player_1, :player_2, :this_game
+    attr_accessor :board, :player_1, :player_2
 
     WIN_COMBINATIONS = [
         [0, 1, 2],
@@ -85,4 +85,61 @@ class Game
         end
         outcome
     end
+
+
+
+
+    # def minimax(board, is_maximizing)
+    #     score = nil
+    #     if is_maximizing
+    #         # puts "maximizing path, checking board state: #{board.cells}"
+    #         if self.won?
+    #             # puts "maximizing path, game won, returning 1"
+    #             score = 1
+    #         elsif self.draw?
+    #             # puts "maximizing path, draw, returning 0"
+    #             score = 0
+    #         else
+    #             best_score = -5
+    #             board.cells.each.with_index do |cell, i|
+    #                 if !board.taken?("#{i + 1}")
+    #                     board.cells[i] = self.current_player.token
+    #                     result = minimax(board, false)
+    #                     board.cells[i] = " "
+    #                     if result > best_score
+    #                         # puts "minimax result: #{result}, updating best score"
+    #                         best_score = result
+    #                     end
+    #                 end
+    #             end
+    #             score = best_score
+    #             # puts "minimax complete, returning #{score}"
+    #         end
+    #     else
+    #         # puts "maximizing path, checking board state: #{board.cells}"
+    #         if self.won?
+    #             # puts "minimizing path, game won, returning 1"
+    #             score = -1
+    #         elsif self.draw?
+    #             # puts "minimizing path, draw, returning 0"
+    #             score = 0
+    #         else
+    #             best_score = 5
+    #             board.cells.each.with_index do |cell, i|
+    #                 if !board.taken?("#{i+1}")
+    #                     board.cells[i] = self.enemy_player.token
+    #                     result = minimax(board, true)
+    #                     board.cells[i] = " "
+    #                     if result < best_score
+    #                         # puts "minimax result: #{result}, updating best score"
+    #                         best_score = result
+    #                     end
+    #                 end
+    #             end
+    #             score = best_score
+    #             # puts "minimax complete, returning #{score}"
+    #         end
+    #     end
+    #     score
+    # end
 end

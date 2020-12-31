@@ -4,62 +4,60 @@ module Players
     
         ##### MINIMAX ATTEMPT #####        
         def move(board)
-            best_move = nil
-            current_highest = -5
+            best_move_index = nil
+            best_score = -Float::INFINITY
             board.cells.each.with_index do |cell, index|
                 if !board.taken?("#{index + 1}")
-                    board.cells[index] = Game.this_game.current_player.token
-                    result = minimax(board, index, true)
+                    board.cells[index] = self.token
+                    score = minimax(board, false)
+                    puts "board state: #{board.cells} is coming back as #{score}"
                     board.cells[index] = " "
-                    if result > current_highest
-                        current_highest = result
-                        best_move = index
+                    if score > best_score
+                        best_score = score
+                        best_move_index = index
                     end
                 end
             end
-            best_move = "#{best_move + 1}"
+            best_move = "#{best_move_index + 1}"
+            best_move
         end
 
         
-        def minimax(board, index, is_maximizing)
+        def minimax(board, is_maximizing)
             score = nil
-            if is_maximizing
-                if Game.this_game.won?
-                    score = 1
-                elsif Game.this_game.draw?
-                    score = 0
-                else
-                    highest = -5
+            if Game.this_game.won? && Game.this_game.winner == self.token
+                score = 1
+            elsif Game.this_game.won? && Game.this_game.winner == self.enemy_token
+                score = -1
+            elsif Game.this_game.draw?
+                score = 0
+            else
+                if is_maximizing
+                    best_score = -Float::INFINITY
                     board.cells.each.with_index do |cell, i|
                         if !board.taken?("#{i + 1}")
-                            board.cells[i] = Game.this_game.current_player.token
-                            result = minimax(board, i, false)
+                            board.cells[i] = self.token
+                            result = minimax(board, false)
                             board.cells[i] = " "
-                            if result > highest
-                                highest = result
+                            if result > best_score
+                                best_score = result
                             end
                         end
                     end
-                    score = highest
-                end
-            else
-                if Game.this_game.won?
-                    score = -1
-                elsif Game.this_game.draw?
-                    score = 0
+                    score = best_score
                 else
-                    lowest = 5
+                    best_score = Float::INFINITY
                     board.cells.each.with_index do |cell, i|
-                        if !board.taken?("#{i+1}")
-                            board.cells[i] = Game.this_game.enemy_player.token
-                            result = minimax(board, i, true)
+                        if !board.taken?("#{i + 1}")
+                            board.cells[i] = self.enemy_token
+                            result = minimax(board, true)
                             board.cells[i] = " "
-                            if result < lowest
-                                lowest = result
+                            if result < best_score
+                                best_score = result
                             end
                         end
                     end
-                    score = lowest
+                    score = best_score
                 end
             end
             score
